@@ -27,15 +27,16 @@
 
 
 <script type="text/javascript">
-	let totpObj = new TOTP();
+	const e = document.getQuerySelector;
+	const txt = e('#secret')
+	const btn = e('#btn')
+	const val = e('#val')
+	const tmr = e('#tmr')
+	
+	const totpObj = new TOTP();
+	
 	let secret = ''
-	let txt = document.getElementById('secret')
-	let btn = document.getElementById('btn')
-	let val = document.getElementById('val')
-	let tmr = document.getElementById('tmr')
-	btn.onclick = lock;
-
-	function lock()
+	btn.onclick = function()
 	{
 		secret = txt.value
 		txt.parentNode.removeChild(txt)
@@ -44,7 +45,6 @@
 
 	setInterval(function() {
 		if (secret != '') {
-			console.log(secret)
 			let otp = totpObj.getOTP(secret);
 			val.innerText = otp.substring(0, 3) + ' ' + otp.substring(3, 6);
 			let now = new Date().getTime() / 1000 % 30;
