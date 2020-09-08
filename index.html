@@ -29,7 +29,7 @@
 
 
 <script type="text/javascript">
-	const e = document.querySelector;
+	const e = document.querySelector.bind(window);
 	const txt = e('#secret')
 	const btn = e('#btn')
 	const val = e('#val')
