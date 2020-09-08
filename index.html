@@ -57,7 +57,11 @@
     btn.onclick = function()
     {
       secret = txt.value
-      txt.parentNode.removeChild(txt)
+      
+      let parent = txt.parentNode
+      while (parent.firstChild)
+        parent.removeChild(parent.firstChild)
+      
       btn.parentNode.removeChild(btn)
     }
 
