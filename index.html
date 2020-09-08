@@ -7,7 +7,6 @@
 	<style type="text/css" rel="tailwind.min.css" />
 	<style type="text/css">
 		body { margin: 0 auto; font: 1em sans-serif;}
-		.wrapper { width:800px; margin:0 auto; text-align: center; padding: 5em 0; }
 		input { padding:10px; font-size:4em; }
 		#val  { font-size:8em; font-weight: bold; width:100%; margin:1em auto;}
 		#btn { font-size: 4em; width:100%; padding: 10px; border:0; background: #EEE; }
@@ -16,11 +15,29 @@
 	</style>
 </head>
 <body>
-	<div class="wrapper">
-		<div>
-			<input type="password" id="secret" placeholder="Secret" value="">
-			<button id="btn">Generate</button>
-		</div>
+	<div class="container mx-auto px-4">
+	<form>
+		<div><input type="password" id="secret" placeholder="Secret" value=""></div>
+		<button id="btn">Generate</button>
+	</form>
+		
+	<div class="w-full max-w-xs">
+	  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+	    <div class="mb-6">
+	      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+		Secret
+	      </label>
+	      <input type="password" placeholder="Secret" id="secret" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+	      <p class="text-red-500 text-xs italic">Please choose a password.</p>
+	    </div>
+	    <div class="flex items-center justify-between">
+	      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+		Generate
+	      </button>
+	    </div>
+	  </form>
+	</div>
+		
 		<div id="val"></div>
 		<div id="bg">
 			<div id="tmr"></div>
