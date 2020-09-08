@@ -1,66 +1,87 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-	
-	<script type="text/javascript" src="js/jsSHA.js"></script>
-	<script type="text/javascript" src="js/totp.js"></script>
-	<link rel="stylesheet" href="tailwind.min.css" />
-	<style type="text/css">
-		#val  { font-size:2em; font-weight: bold; text-align:center; }
-		#tmr { height:15px; }
-		#bg { background-color: #eee; }
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tailwind CSS Skeleton</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <!-- Font Awesome if you need it
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
+  -->
+  <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <!--Replace with your tailwind.css once created-->
+  <link href="https://unpkg.com/@tailwindcss/custom-forms/dist/custom-forms.min.css" rel="stylesheet">
+  <!--Tailwind Custom Forms - use to standardise form fields - https://github.com/tailwindcss/custom-forms-->
+  <script type="text/javascript" src="js/jsSHA.js"></script>
+  <script type="text/javascript" src="js/totp.js"></script>
 </head>
-<body>
-	<div class="w-full max-w-xs">
-	  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-	    <div class="mb-6">
-	      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-		Secret
-	      </label>
-	      <input type="password" placeholder="Secret" id="secret" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-	    </div>
-	    <div class="flex items-center justify-between">
-	      <button id="btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-		Generate
-	      </button>
-		<a id="val"></a>
-	    </div>
-	  </form>
-	</div>
-		<div id="bg">
-			<div id="tmr"></div>
-		</div>
+
+<body class="bg-grey-100 font-sans leading-normal tracking-normal">
+
+  <div class="container mx-auto">
+    <h1 class="text-2xl font-bold text-indigo-500">Hello World</h1>
 
 
-<script type="text/javascript">
-	const e = function(a) { return document.querySelector(a); };
-	const txt = e('#secret')
-	const btn = e('#btn')
-	const val = e('#val')
-	const tmr = e('#tmr')
-	
-	const totpObj = new TOTP();
-	
-	let secret = ''
-	btn.onclick = function()
-	{
-		secret = txt.value
-		txt.parentNode.removeChild(txt)
-		btn.parentNode.removeChild(btn)
-	}
+    <div class="w-full max-w-xs">
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Secret</label>
+          <input type="password" placeholder="Secret" id="secret" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="flex items-center justify-between">
+          <button id="btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">Generate</button>
+          <a id="val"></a>
+        </div>
+      </form>
+    </div>
 
-	setInterval(function() {
-		if (secret != '') {
-			let otp = totpObj.getOTP(secret);
-			val.innerText = otp.substring(0, 3) + ' ' + otp.substring(3, 6);
-			let now = new Date().getTime() / 1000 % 30;
-			let exp = Math.round(now / 30 * 100);
-			tmr.style.width = exp + '%';
-			if (exp > 2400/30) tmr.style.backgroundColor = 'red';
-			else               tmr.style.backgroundColor = 'black';
-		}
-	}, 1000);
-</script>
+    <div id="bg">
+      <div id="tmr"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    const e = function(a) { return document.querySelector(a); };
+    const txt = e('#secret')
+    const btn = e('#btn')
+    const val = e('#val')
+    const tmr = e('#tmr')
+    
+    const totpObj = new TOTP();
+    
+    let secret = ''
+    btn.onclick = function()
+    {
+      secret = txt.value
+      txt.parentNode.removeChild(txt)
+      btn.parentNode.removeChild(btn)
+    }
+
+    setInterval(function() {
+      if (secret != '') {
+        let otp = totpObj.getOTP(secret);
+        val.innerText = otp.substring(0, 3) + ' ' + otp.substring(3, 6);
+        let now = new Date().getTime() / 1000 % 30;
+        let exp = Math.round(now / 30 * 100);
+        tmr.style.width = exp + '%';
+        if (exp > 2400/30) tmr.style.backgroundColor = 'red';
+        else               tmr.style.backgroundColor = 'black';
+      }
+    }, 1000);
+  </script>
+
+
+  <!-- jQuery if you need it
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  -->
+
 </body>
+
 </html>
