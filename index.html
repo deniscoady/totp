@@ -13,35 +13,41 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css">
   -->
   <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-  <!--Replace with your tailwind.css once created-->
-  <link href="https://unpkg.com/@tailwindcss/custom-forms/dist/custom-forms.min.css" rel="stylesheet">
-  <!--Tailwind Custom Forms - use to standardise form fields - https://github.com/tailwindcss/custom-forms-->
   <script type="text/javascript" src="js/jsSHA.js"></script>
   <script type="text/javascript" src="js/totp.js"></script>
 </head>
 
-<body class="bg-grey-100 font-sans leading-normal tracking-normal">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal my-10">
 
   <div class="container mx-auto">
-    <h1 class="text-2xl font-bold text-indigo-500">Hello World</h1>
 
-
-    <div class="w-full max-w-xs">
-      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Secret</label>
-          <input type="password" placeholder="Secret" id="secret" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+    <form class="w-full max-w-lg mx-auto bg-white shadow p-10 uppercase text-gray-400">
+      <h1 class="px-5 pb-10 text-3xl font-light text-center text-gray-500">Browser TOTP Generator</h1>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            Secret Key
+          </label>
+          <input id="secret" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password" placeholder="******************">
         </div>
-        <div class="flex items-center justify-between">
-          <button id="btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">Generate</button>
-          <a id="val"></a>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
 
-    <div id="bg">
-      <div id="tmr"></div>
-    </div>
+        <div class="w-full px-3 mb-6 md:mb-0">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
+            &nbsp;
+          </label>
+          <button disabled="true" id="btn" class="appearance-none block w-full bg-blue-500 text-white border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">Generate</button>
+        </div>
+        <div class="w-full px-3 items-center text-center text-6xl text-gray-800" id="val"></div>
+        <div id="bg" class="bg-gray-200 w-full rounded" style="height:5px;">
+          <div id="tmr" class="w-full min-h-full rounded"></div>
+        </div>
+      </div>
+    </form>
+    <p class="text-center text-gray-500 text-xs p-3">
+    Hacked together by <a href="http://github.com/dcoded">Denis Coady</a>
+    </p>
   </div>
 
   <script type="text/javascript">
@@ -65,27 +71,40 @@
       btn.parentNode.removeChild(btn)
     }
 
+    txt.onkeyup = function()
+    {
+      console.log(txt.value)
+      if (txt.value != '') {
+        btn.removeAttribute('disabled')
+        btn.style.backgroundColor = 'rgba(66,153,225,var(--bg-opacity))'
+      } else {
+        btn.setAttribute('disabled', 'true')
+        btn.style.backgroundColor = '#e2e8f0'
+      }
+    }
+
+    let current = 0
+    let cached  = null
     setInterval(function() {
       if (secret != '') {
-        let otp = totpObj.getOTP(secret.toUpperCase());
-        val.innerText = otp.substring(0, 3) + ' ' + otp.substring(3, 6);
-        let now = new Date().getTime() / 1000 % 30;
-        let exp = Math.round(now / 30 * 100);
+        current = totpObj.getOTP(secret.toUpperCase());
+        if (current != cached) {
+          let first = current.substring(0, 3);
+          let last  = current.substring(3, 6);
+          val.innerText = first + ' ' + last;
+          cached = current
+        }
+        let now = new Date().getTime() / 1000
+        now = Math.ceil(now);
+        now = now % 30;
+        now = now + 1;
+        let exp = Math.ceil(now / 30 * 100);
         tmr.style.width = exp + '%';
-        if (exp > 2400/30) tmr.style.backgroundColor = 'red';
-        else               tmr.style.backgroundColor = 'black';
+        if (exp > 2400/30) tmr.style.backgroundColor = 'rgba(225,65,65,var(--bg-opacity))';
+        else               tmr.style.backgroundColor = 'rgba(66,153,225,var(--bg-opacity))';
       }
-    }, 1000);
+    }, 100);
   </script>
 
-
-  <!-- jQuery if you need it
-  <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  -->
-
 </body>
-
 </html>
