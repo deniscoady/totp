@@ -54,6 +54,9 @@
     const e = function(a) { return document.querySelector(a); };
     const txt = e('#secret')
     const btn = e('#btn')
+    btn.classList.add('opacity-50')
+    btn.classList.add('cursor-not-allowed')
+
     const val = e('#val')
     const tmr = e('#tmr')
     
@@ -71,15 +74,18 @@
       btn.parentNode.removeChild(btn)
     }
 
+
     txt.onkeyup = function()
     {
       console.log(txt.value)
       if (txt.value != '') {
         btn.removeAttribute('disabled')
-        btn.style.backgroundColor = 'rgba(66,153,225,var(--bg-opacity))'
+        btn.classList.remove('opacity-50')
+        btn.classList.remove('cursor-not-allowed')
       } else {
         btn.setAttribute('disabled', 'true')
-        btn.style.backgroundColor = '#e2e8f0'
+        btn.classList.add('opacity-50')
+        btn.classList.add('cursor-not-allowed')
       }
     }
 
