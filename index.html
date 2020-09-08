@@ -63,7 +63,7 @@
 
     setInterval(function() {
       if (secret != '') {
-        let otp = totpObj.getOTP(secret);
+        let otp = totpObj.getOTP(secret.toUpperCase());
         val.innerText = otp.substring(0, 3) + ' ' + otp.substring(3, 6);
         let now = new Date().getTime() / 1000 % 30;
         let exp = Math.round(now / 30 * 100);
